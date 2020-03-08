@@ -1,0 +1,128 @@
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+
+doc_1 = "loosefish but costumeless is the sea one air one air one art one rest another cypher"
+doc_2 = "fix upon the bardfilm course nailed to the groove circle on arrestless dance and dance"
+doc_3 = "circle on but costumeless is the sky one air one air one art one rose another degree"
+doc_4 = "fix upon the bardfin course nailed to the mast dash on arrestless dance and go"
+doc_5 = "dash on but costumeless is the sun one air one air one art one show another desire"
+doc_6 = "fix upon the bardfolk course nailed to the spar let them arrestless dance and leave"
+doc_7 = "let them but crumbless is the earth one air one air one art one sight another dower"
+doc_8 = "fix upon the bardgerm course nailed to the pole listen now arrestless dance and move"
+doc_9 = "listen now but crumbless is the sea one air one air one art one sky another efface"
+doc_10 = "fix upon the bardhag course nailed to the plank loop on arrestless dance and rise"
+doc_11 = "fix upon the bardfern course nailed to the desk loosefish arrestless dance and chime"
+doc_12 = "fastfish but costumeless is the earth one air one air one art one play another costume"
+doc_13 = "fix upon the bardedge course nailed to the deck fastfish arrestless dance and bask"
+doc_14 = "you too but concernless is the sun one air one air one art one place another concern"
+doc_15 = "fix upon the barddrum course nailed to the coffin you too arrestless chime and walk"
+doc_16 = "whirl one but concernless is the sky one air one air one art one pain another blanket"
+doc_17 = "fix upon the barddock course nailed to the sash whirl on arrestless chime and turn"
+doc_18 = "wheel one but concernless is the sea one air one air one art one noon another arrest"
+doc_19 = "fix upon the barddisk course nailed to the room wheel on arrestless chime and step"
+doc_20 = "turn on but concernless is the earth one air one air one art one need another today"
+doc_21 = "one air one air one art one need arrestless chime and speak fix upon the barddisk course but concernless is the earth"
+doc_22 = "wheel on another today wheel on nailed to the room"
+doc_23 = "one air one air one art one noon arrestless chime and step fix upon the barddock course but concernless is the sea"
+doc_24 = "whirl on another arrest whirl on nailed to the sash"
+doc_25 = "one air one air one art one pain arrestless chime and turn fix upon the barddrum course but concern"
+doc_26 = "you too another blanket you too nailed to the coffin"
+doc_27 = "one air one air one art one place arrestless chime and walk fix upon the bardedge course but concernless is the sun"
+doc_28 = "fastfish another concern fastfish nailed to the deck"
+doc_29 = "one air one air one art one play arrestless dance and bask fix upon the bardfern course but costumeless is the earth"
+doc_30 = "loosefish another costume loosefish another desk"
+doc_31 = "one air one air one art one rest arrestless dance and chime fix upon the bardfilm course but costumeless is the sea"
+doc_32 = "circle on another cypher circle on nailed to the groove"
+doc_33 = "one air one air one art one rose arrestless dance and dance fix upon the bardfin course but costumeless is the sky"
+doc_34 = "dash on another degree dash on nailed to the mast"
+doc_35 = "one air one air one art one show arrestless dance and go fix upon the bardfolk course but costumeless is the sun"
+doc_36 = "let them another desire let them nailed to the spar"
+doc_37 = "one air one air one art one sight arrestless dance and leave fix upon the bardgerm course but crumbless is the earth"
+doc_38 = "listen now another dower listen now nailed to the pole"
+doc_39 = "one air one air one art one sky arrestless dance and move fix upon the bardhag course but crumbless is the sea"
+doc_40 = "loop on another efface loop on nailed to the plank"
+doc_41 = "fix upon the barddisk course nailed to the rail wheel on arrestless chime and speak"
+doc_42 = "wheel on but concernless is the earth one air one air one art one noon another today"
+doc_43 = "fix upon the barddock course nailed to the room whirl on arrestless chime and step"
+doc_44 = "whirl on but concernless is the sea one air one air one art one pain another arrest "
+doc_45 = "fix upon the barddrum course nailed to the sash you too arrestless chime and turn"
+doc_46 = "you too but concernless is the sky one air one air one art one place another blanket"
+doc_47 = "fix upon the bardedge course nailed to the coffin fastfish arrestless chime and walk"
+doc_48 = "fastfish but concernless is the sun one air one air one art one play another concern"
+doc_49 = "fix upon the bardfern course nailed to the deck loosefish arrestless dance and bask"
+doc_50 = "loosefish but costumeless is the earth one air one air one art one rest another costume"
+doc_51 = "fix upon the bardfilm course nailed to the desk circle on arrestless dance and chime"
+doc_52 = "circle on but costumeless is the sun one air one air one art one rose another cypher"
+doc_53 = "fix upon the bardfin course nailed to the groove dash on arrestless dance and dance"
+doc_54 = "dash on but costumeless is the sky one air one air one art one show another degree"
+doc_55 = "fix upon the bardfolk course nailed to the mast let them arrestless dance and go"
+doc_56 = "let them but costumeless is the sun one air one air one art one sight another desire"
+doc_57 = "fix upon the bardgerm course nailed to the spar listen now arrestless dance and leave"
+doc_58 = "listen now but crumbless is the earth one air one air one art one sky another dower"
+doc_59 = "fix upon the bardhag course nailed to the pole loop on arrestless dance and move"
+doc_60 = "loop on but crumbless is the sea one air one air one art one snow another efface"
+doc_61 = "wheel on another spirit wheel on nailed to the rail"
+doc_62 = "one air one air one art one noon arrestless chime and speak fix upon the barddock course but concernless is the earth"
+doc_63 = "whirl on another today whirl on nailed to the room"
+doc_64 = "one air one air one art one pain arrestless chime and step fix upon the barddrum course but concernless is the sea"
+doc_65 = "you too another arrest you too nailed to the sash"
+doc_66 = "one air one air one art one place arrestless chime and turn fix upon the bardedge course but concernless is the sky"
+doc_67 = "fastfish another blanket fastfish nailed to the coffin"
+doc_68 = "one air one air one art one play arrestless chime and walk fix upon the bardfern course but concernless is the sun"
+doc_69 = "loosefish another concern loosefish nailed to the deck"
+doc_70 = "one air one air one art one rest arrestless dance and bask fix upon the bardfilm course but costumeless is the earth"
+doc_71 = "circle on another costume circle on nailed to the desk"
+doc_72 = "one air one air one art one rose arrestless dance and chime fix upon the bardfin course but costumeless is the sea"
+doc_73 = "dash on another cypher dash on nailed to the groove"
+doc_74 = "one air one air one art one show arrestless dance and dance fix upon the bardfolk course but costumeless is the sky"
+doc_75 = "let them another degree let them nailed to the mast"
+doc_76 = "one air one air one art one sight arrestless dance and go fix upon the bardgerm course but costumeless is the sun"
+doc_77 = "listen now another desire listen now nailed to the spar"
+doc_78 = "one air one air one art one sky arrestless dance and leave fix upon the bardhag course but crumbless is the earth"
+doc_79 = "loop on another dower loop on nailed to the pole"
+doc_80 = "one air one air one art one snow arrestless dance and move fix upon the bardhawk course but crumbless is the sea"
+doc_81 = "wheel on but blanketless is the sun one air one air one art one noon another spirit"
+doc_82 = "fix upon the barddock course nailed to the rail whirl on arrestless chime and speak"
+doc_83 = "whirl on but concernless is the earth one air one air one art one pain another today"
+doc_84 = "fix upon the barddrum course nailed to the room you too arrestless chime and step"
+doc_85 = "you too but concernless is the sea one air one air one art one place another arrest"
+doc_86 = "fix upon the bardedge course nailed to the sash fastfish arrestless chime and turn"
+doc_87 = "fastfish but concernless is the sky one air one air one art one play another blanket"
+doc_88 = "fix upon the bardfern course nailed to the coffin loosefish arrestless chime and walk"
+doc_89 = "loosefish but concernless is the sun one air one air one art one rest another concern"
+doc_90 = "fix upon the bardfilm course nailed to the deck circle on arrestless dance and bask"
+doc_91 = "circle on but costumeless is the earth one air one air one art one rose another costume"
+doc_92 = "fix upon the bardfin course nailed to the desk dash on arrestless dance and chime"
+doc_93 = "dash on but costumeless is the sea one air one air one art one show another cypher"
+doc_94 = "fix upon the bardfolk course nailed to the groove let them arrestless dance and dance"
+doc_95 = "let them but costumeless is the sky one air one air one art one sight another degree"
+doc_96 = "fix upon the bardgerm course nailed to the mast listen now arrestless dance and go"
+doc_97 = "listen now but costumeless is the sun one air one air one art one sky another desire"
+doc_98 = "fix upon the bardhag course nailed to the spar loop on arrestless dance and leave"
+doc_99 = "loop on but crumbless is the earth one air one air one art one snow another dower"
+doc_100 = "fix upon the bardhawk course nailed to the pole oh time arrestless dance and move"
+
+documents = [doc_1, doc_2, doc_3, doc_4, doc_5, doc_6, doc_7, doc_8, doc_9, doc_10, doc_11, doc_12, doc_13, doc_14, doc_15, doc_16, doc_17, doc_18, doc_19, doc_20, doc_21, doc_22, doc_23, doc_24, doc_25, doc_26, doc_27, doc_28, doc_29, doc_30, doc_31, doc_32, doc_33, doc_34, doc_35, doc_36, doc_37, doc_38, doc_39, doc_40, doc_41, doc_42, doc_43, doc_44, doc_45, doc_46, doc_47, doc_48, doc_49, doc_50, doc_51, doc_52, doc_53, doc_54, doc_55, doc_56, doc_57, doc_58, doc_59, doc_60, doc_61, doc_62, doc_63, doc_64, doc_65, doc_66, doc_67, doc_68, doc_69, doc_70, doc_71, doc_72, doc_73, doc_74, doc_75,  doc_76, doc_77, doc_78, doc_79, doc_80, doc_81, doc_82, doc_83, doc_84,     doc_85, doc_86, doc_87, doc_88, doc_89, doc_90, doc_91, doc_92, doc_93, doc_94, doc_95, doc_96, doc_97, doc_98, doc_99, doc_100]
+
+count_vectorizer = CountVectorizer(stop_words='english', ngram_range = (1, 2))
+#count_vectorizer = CountVectorizer()
+sparse_matrix = count_vectorizer.fit_transform(documents)
+
+print(sparse_matrix)
+
+print(sparse_matrix.toarray())
+
+print(cosine_similarity(sparse_matrix)) 
+
+#df3 = pd.DataFrame(sparse_matrix.toarray())
+#df3.to_excel(r'C:\Users\Nat Moore\Documents\MA\PDFs\arraybagofwords.xlsx', index = None, header = True)
+
+#df4 = pd.DataFrame(cosine_similarity(sparse_matrix))
+#df4.to_excel(r'C:\Users\Nat Moore\Documents\MA\PDFs\cosinebagofwords.xlsx', index = None, header = True)
+
+df5 = pd.DataFrame(cosine_similarity(sparse_matrix))
+df5.to_excel(r'C:\Users\Nat Moore\Documents\MA\PDFs\cosinebagofwordsbigram.xlsx', index = None, header = True)
+
+
