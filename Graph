@@ -1,5 +1,9 @@
-Follow a sine wave's journey through the sea of Sea and Spar Between. 
-If the wave intersects with the coordinates of a stanza, read that stanza.
-If you get to the end of the plotted coordinates but wish to continue, replot them yourself. 
+Follow a sine wave's journey through the sea of *Sea and Spar Between* at the following link: https://www.desmos.com/calculator/y4pirwqjdq 
+If the wave intersects with the coordinates of a stanza, read that stanza at https://nickm.com/montfort_strickland/sea_and_spar_between/
+(For instructions on how to navigate the poem, see http://collection.eliterature.org/3/work.html?work=sea-and-spar-between)
+Stanzas from [(0, 1), (1, 1), (2, 1) ... (1000, 1), [(0, 0), (1, 0), (2, 0) ... (1000, 0)], and [(0, -1), (1, -1), (2, -1) ... (1000, -1)]
+have been plotted on the graph. If you reach 1000 on the x-axis and wish to continue operating the poem in the manner prescribed here
+edit variable A from [1...1000] - [1...1000] to [1001...2000) - [1001...2000], variable B from [1...1000] to [1001...2000].
+*Mutatis mutandis* for the other variables. *Mutatis mutandis* if you reach 2000 on the x-axis are still unsatiated. 
 
-https://www.desmos.com/calculator/y4pirwqjdq
+
